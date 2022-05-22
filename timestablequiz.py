@@ -2,6 +2,7 @@
 
 """A times table quiz"""
 
+import argparse
 from datetime import datetime
 import getpass
 from random import randrange
@@ -11,6 +12,7 @@ import typing
 
 
 SPEAK = True
+VOICE = "m3"
 
 
 class _AbortedError(Exception):
@@ -37,13 +39,13 @@ def _speak(message: str, display: bool = True,
     if display:
         _display(alt_message or message)
     if SPEAK:
-        subprocess.check_call(["espeak-ng", message])
+        subprocess.check_call(["espeak-ng", "-v", VOICE, message])
 
 
 def _ask(message: str, alt_message: typing.Optional[str] = None) -> str:
     _display(alt_message or message, newline=False)
     if SPEAK:
-        subprocess.check_call(["espeak-ng", message])
+        subprocess.check_call(["espeak-ng", "-v", VOICE, message])
     return input("")
 
 
@@ -121,6 +123,20 @@ def _quiz_random_times_table(count: int) -> None:
 
 
 def _main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-v",
+        "--voice",
+        choices=["male", "female"],
+        default="male"
+    )
+    args = parser.parse_args()
+    global VOICE
+    if args.voice == "male":
+        VOICE = "m3"
+    else:
+        VOICE = "f3"
+
     username = getpass.getuser()
     _speak(f"Hello {username}.")
     while True:
