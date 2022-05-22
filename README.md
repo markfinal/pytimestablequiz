@@ -2,7 +2,7 @@
 A quiz to practice your times tables up to 12.
 
 # Prerequisites
-## Ubuntu
+## Ubuntu/Raspberry Pi
 ```
-apt install espeak
+apt install espeak-ng
 ```

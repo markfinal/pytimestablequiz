@@ -37,13 +37,13 @@ def _speak(message: str, display: bool = True,
     if display:
         _display(alt_message or message)
     if SPEAK:
-        subprocess.check_call(["espeak", message])
+        subprocess.check_call(["espeak-ng", message])
 
 
 def _ask(message: str, alt_message: typing.Optional[str] = None) -> str:
     _display(alt_message or message, newline=False)
     if SPEAK:
-        subprocess.check_call(["espeak", message])
+        subprocess.check_call(["espeak-ng", message])
     return input("")
 
 
