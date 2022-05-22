@@ -78,9 +78,9 @@ def _quiz_times_table(number: int) -> None:
                     alt_message=_question_as_written(question)
                 )
                 if answer == the_answer:
-                    _speak("Correct")
+                    _speak(f"{the_answer}. Correct", alt_message="Correct")
                     break
-                _speak("Sorry, try again")
+                _speak(f"Sorry, {answer} is not correct, please try again")
         end = datetime.now()
         elapsed = round((end - start).total_seconds(), 1)
         _speak(f"Well done! 12 questions answered in {elapsed} seconds")
@@ -108,9 +108,9 @@ def _quiz_random_times_table(count: int) -> None:
                     alt_message=_question_as_written(question)
                 )
                 if answer == the_answer:
-                    _speak("Correct")
+                    _speak(f"{the_answer}. Correct", alt_message="Correct")
                     break
-                _speak("Sorry, try again")
+                _speak(f"Sorry, {answer} is not correct, please try again")
         end = datetime.now()
         elapsed = round((end - start).total_seconds(), 1)
         _speak(f"Well done! {count} questions answered in {elapsed} seconds")
@@ -152,6 +152,7 @@ def _main() -> None:
                 count = _ask("How many questions would you like? ")
                 _quiz_random_times_table(int(count))
             elif "4" == choice:
+                _speak("Thank you for playing. Goodbye.")
                 return
         else:
             _speak("Sorry, but you must choose a number from 1 to 3")
