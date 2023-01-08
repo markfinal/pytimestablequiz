@@ -38,7 +38,7 @@ def _display(message: str, newline=True) -> None:
 def _do_speak(message):
     if SPEAK:
         with contextlib.suppress(FileNotFoundError):
-            subprocess.check_call(["espeak-ng", "-v", VOICE, message])
+            subprocess.check_call(["espeak-ng", "-v", f"en+{VOICE}", message])
 
 
 def _speak(
