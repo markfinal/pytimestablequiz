@@ -105,7 +105,7 @@ def _quiz_random_times_table(count: int) -> None:
                     break
                 _speak(f"Sorry, {answer} is not correct, please try again")
         end = datetime.now()
-        elapsed = round((end - start).total_seconds(), 1)
+        elapsed = int((end - start).total_seconds())
         _speak(f"Well done! {count} questions answered in {elapsed} seconds")
     except _AbortedError:
         pass
