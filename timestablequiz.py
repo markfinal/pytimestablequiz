@@ -34,18 +34,24 @@ def _display(message: str, newline=True) -> None:
         print(message, flush=True, end="")
 
 
+def _do_speak(message):
+    if SPEAK:
+        try:
+            subprocess.check_call(["espeak-ng", "-v", VOICE, message])
+        except FileNotFoundError:
+            pass
+
+
 def _speak(message: str, display: bool = True,
            alt_message: typing.Optional[str] = None) -> None:
     if display:
         _display(alt_message or message)
-    if SPEAK:
-        subprocess.check_call(["espeak-ng", "-v", VOICE, message])
+    _do_speak(message)
 
 
 def _ask(message: str, alt_message: typing.Optional[str] = None) -> str:
     _display(alt_message or message, newline=False)
-    if SPEAK:
-        subprocess.check_call(["espeak-ng", "-v", VOICE, message])
+    _do_speak(message)
     return input("")
 
 
