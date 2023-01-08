@@ -41,8 +41,9 @@ def _do_speak(message):
             subprocess.check_call(["espeak-ng", "-v", VOICE, message])
 
 
-def _speak(message: str, display: bool = True,
-           alt_message: typing.Optional[str] = None) -> None:
+def _speak(
+    message: str, display: bool = True, alt_message: typing.Optional[str] = None
+) -> None:
     if display:
         _display(alt_message or message)
     _do_speak(message)
@@ -55,10 +56,7 @@ def _ask(message: str, alt_message: typing.Optional[str] = None) -> str:
 
 
 def _speak_times_table(number: int) -> None:
-    default__interrupt_handler = signal.signal(
-        signal.SIGINT,
-        _interrupt_handler
-    )
+    default__interrupt_handler = signal.signal(signal.SIGINT, _interrupt_handler)
     try:
         for i in range(1, 13):
             question = f"{i} times {number} equals {i * number}"
@@ -70,20 +68,14 @@ def _speak_times_table(number: int) -> None:
 
 
 def _quiz_times_table(number: int) -> None:
-    default__interrupt_handler = signal.signal(
-        signal.SIGINT,
-        _interrupt_handler
-    )
+    default__interrupt_handler = signal.signal(signal.SIGINT, _interrupt_handler)
     try:
         start = datetime.now()
         for i in range(1, 13):
             question = f"{i} times {number} equals "
             the_answer = str(i * number)
             while True:
-                answer = _ask(
-                    question,
-                    alt_message=_question_as_written(question)
-                )
+                answer = _ask(question, alt_message=_question_as_written(question))
                 if answer == the_answer:
                     _speak(f"{the_answer}. Correct", alt_message="Correct")
                     break
@@ -98,10 +90,7 @@ def _quiz_times_table(number: int) -> None:
 
 
 def _quiz_random_times_table(count: int) -> None:
-    default__interrupt_handler = signal.signal(
-        signal.SIGINT,
-        _interrupt_handler
-    )
+    default__interrupt_handler = signal.signal(signal.SIGINT, _interrupt_handler)
     try:
         start = datetime.now()
         for _ in range(count):
@@ -110,10 +99,7 @@ def _quiz_random_times_table(count: int) -> None:
             the_answer = str(left * right)
             question = f"{left} times {right} equals "
             while True:
-                answer = _ask(
-                    question,
-                    alt_message=_question_as_written(question)
-                )
+                answer = _ask(question, alt_message=_question_as_written(question))
                 if answer == the_answer:
                     _speak(f"{the_answer}. Correct", alt_message="Correct")
                     break
@@ -129,12 +115,7 @@ def _quiz_random_times_table(count: int) -> None:
 
 def _main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-v",
-        "--voice",
-        choices=["male", "female"],
-        default="male"
-    )
+    parser.add_argument("-v", "--voice", choices=["male", "female"], default="male")
     args = parser.parse_args()
     global VOICE
     if args.voice == "male":
@@ -153,8 +134,7 @@ def _main() -> None:
         if choice in ["1", "2", "3", "4"]:
             if choice == "1":
                 table = _ask(
-                    "Which times table?",
-                    alt_message="Which times table? [1-12] "
+                    "Which times table?", alt_message="Which times table? [1-12] "
                 )
                 if table in [str(i) for i in range(1, 13)]:
                     _speak_times_table(int(table))
@@ -162,8 +142,7 @@ def _main() -> None:
                     _speak("Sorry, but you must choose a number from 1 to 12")
             elif choice == "2":
                 table = _ask(
-                    "Which times table?",
-                    alt_message="Which times table? [1-12] "
+                    "Which times table?", alt_message="Which times table? [1-12] "
                 )
                 if table in [str(i) for i in range(1, 13)]:
                     _quiz_times_table(int(table))
