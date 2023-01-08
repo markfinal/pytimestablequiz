@@ -3,6 +3,7 @@
 """A times table quiz"""
 
 import argparse
+import contextlib
 from datetime import datetime
 import getpass
 from random import randrange
@@ -36,10 +37,8 @@ def _display(message: str, newline=True) -> None:
 
 def _do_speak(message):
     if SPEAK:
-        try:
+        with contextlib.suppress(FileNotFoundError):
             subprocess.check_call(["espeak-ng", "-v", VOICE, message])
-        except FileNotFoundError:
-            pass
 
 
 def _speak(message: str, display: bool = True,
@@ -152,7 +151,7 @@ def _main() -> None:
         _display(" 4. Finish")
         choice = _ask("Which number would you like to play? ")
         if choice in ["1", "2", "3", "4"]:
-            if "1" == choice:
+            if choice == "1":
                 table = _ask(
                     "Which times table?",
                     alt_message="Which times table? [1-12] "
@@ -161,7 +160,7 @@ def _main() -> None:
                     _speak_times_table(int(table))
                 else:
                     _speak("Sorry, but you must choose a number from 1 to 12")
-            elif "2" == choice:
+            elif choice == "2":
                 table = _ask(
                     "Which times table?",
                     alt_message="Which times table? [1-12] "
@@ -170,10 +169,10 @@ def _main() -> None:
                     _quiz_times_table(int(table))
                 else:
                     _speak("Sorry, but you must choose a number from 1 to 12")
-            elif "3" == choice:
+            elif choice == "3":
                 count = _ask("How many questions would you like? ")
                 _quiz_random_times_table(int(count))
-            elif "4" == choice:
+            elif choice == "4":
                 _speak("Thank you for playing. Goodbye.")
                 return
         else:
