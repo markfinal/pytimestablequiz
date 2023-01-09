@@ -24,11 +24,11 @@ Run
 ```
 python timestablequiz.py
 ```
-To change the voice to male:
+To change to a male sounding voice:
 ```
 python timestablequiz.py -v male
 ```
-To change the voice to female:
+To change a female founding voice:
 ```
 python timestablequiz.py -v female
 ```
